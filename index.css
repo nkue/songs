@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  color: #fafafa;
+  background-color: #333;
+  gap: 1rem;
+  max-height: 100%;
+}
+
+h1 {
+  margin: 0;
+}
+
+.pick-button {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: #23c92334;
+  cursor: pointer;
+  width: 8rem;
+  color: #fafafa;
+}
+
+.pick-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: #be27273e;
+  cursor: pointer;
+  width: 8rem;
+  color: #fafafa;
+}
+
+.picked-item {
+  width: 400px;
+  min-height: 5rem;
+  padding: 0.25rem 0.5rem;
+  border: 5px solid #ffec8b;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0 1.5rem;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  width: 400px;
+  box-sizing: border-box;
+}
+
+.item-list li {
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  background-color: #444;
+  font-size: 24px;
+  color: #fafafa;
+}
