@@ -1,223 +1,262 @@
 (function () {
-  const list = document.getElementById('item-list');
-  const btn = document.getElementById('pick-button');
-  const resetBtn = document.getElementById('reset-button');
-  const pickedSpan = document.getElementById('picked');
-  const STORAGE_KEY = 'songs_app_state_v1';
-  const SPIN_DURATION = 3000;
-  const CENTER_TIME = 0.75;
-  const DELAY_STEP = 0.075;
+  const list = document.getElementById("item-list");
+  const wheel = document.querySelector(".wheel");
+  const wrapper = document.querySelector(".wrapper");
+  const btn = document.getElementById("pick-button");
+  const resetBtn = document.getElementById("reset-button");
+  const addItemBtn = document.getElementById("add-item-button");
+  const newItemInput = document.getElementById("new-item-input");
+  const STORAGE_KEY = "songs_app_state_v1";
+
+  let currentRotation = 0;
   let isSpinning = false;
-  let spinTimeout = null;
-  let previousChosen = null;
+  let frontIndex = 0;
+  let pendingRemoval = null;
 
   const initialItems = [
-    'One Name / Word Artist',
-    '80s Banger',
-    'Love Song',
-    'Break-Up Anthem',
-    'A Capella Cover',
-    'TV Theme Song',
-    'Song from a Movie',
-    'Title said in the Song',
-    '2000s Dance Hit',
-    'Spooky Tune',
-    '"Good" / "Bad" in the Song',
-    'Song about a City',
-    'Teenage Angst Song',
-    '00s HipHop / RnB Track',
-    'One Hit Wonder',
-    'Number in Song / Band',
-    'Disney (or similar) Song',
-    'Dad / Mum Song',
-    'Went Solo',
-    'Musical Number',
-    'Foreign Language',
-    'Made-up Band',
-    'Problematic Banger',
-    'Road Trip Banger',
-    'Eurovision Hit',
-    'Iconic Cover',
-    'Best Music Video',
-    'Stadium Anthem',
-    'Nonsense Lyrics',
-    'Comedy Song',
-    'Filthy Lyrics',
-    '90s Banger',
-    'Wedding Floor Filler',
-    'Song to get pumped to',
-    'First Dance Song',
-    'One Song forever',
-    'Irish Banger',
-    'Go-to Karaoke',
-    'Undiscovered / Underrated',
-    'Major Artist - Lesser-known Song',
-    'Song from an Advert',
-    'Instrumental hit',
-    'Ultimate Country Song',
-    'Name in the Song Title',
-    'Girl Group Anthem',
-    'Boy Band Anthem',
-    'Colour in the Song Title',
-    'Animal in the Song Title'
+    "One Name / Word Artist",
+    "80s Banger",
+    "Love Song",
+    "Break-Up Anthem",
+    "A Capella Cover",
+    "TV Theme Song",
+    "Song from a Movie",
+    "Title said in the Song",
+    "Road Trip Banger",
+    "Eurovision Hit",
+    "Iconic Cover",
+    "Best Music Video",
+    "Stadium Anthem",
+    "Nonsense Lyrics",
+    "Comedy Song",
+    "Filthy Lyrics",
+    "90s Banger",
+    "Wedding Floor Filler",
+    "Song to get pumped to",
+    "First Dance Song",
+    "One Song forever",
+    "Irish Banger",
+    "Go-to Karaoke",
+    "Undiscovered / Underrated",
+    "Major Artist - Lesser-known Song",
+    "Song from an Advert",
+    "Instrumental hit",
+    "Ultimate Country Song",
+    "Name in the Song Title",
+    "Girl Group Anthem",
+    "Boy Band Anthem",
+    "Colour in the Song Title",
+    "Animal in the Song Title",
   ];
 
+  function getLines() {
+    return Array.from(list.querySelectorAll(".line"));
+  }
+
   function createLine(text) {
-    const li = document.createElement('div');
-    li.className = 'line';
-    const p = document.createElement('p');
-    p.textContent = text;
-    li.appendChild(p);
-    return li;
+    const div = document.createElement("div");
+    div.className = "line";
+    div.textContent = text;
+    return div;
   }
 
-  function updateButtonState() {
-    btn.disabled = isSpinning || list.querySelectorAll('.line').length === 0;
-  }
+  function populateList(items) {
+    list.innerHTML = "";
 
-  function setWheelDelays(centerIndex = 0) {
-    const lines = Array.from(list.querySelectorAll('.line'));
-    lines.forEach((line, idx) => {
-      const delay = -(CENTER_TIME + (idx - centerIndex) * DELAY_STEP);
-      const delayValue = `${delay}s`;
-      line.style.animationDelay = delayValue;
-      const p = line.querySelector('p');
-      if (p) p.style.animationDelay = delayValue;
-      line.classList.remove('highlighted');
+    items.forEach((text) => {
+      list.appendChild(createLine(text));
     });
+
+    layoutWheel();
+    saveState();
   }
 
-  function storageAvailable() {
-    try {
-      const testKey = '__storage_test__';
-      localStorage.setItem(testKey, testKey);
-      localStorage.removeItem(testKey);
-      return true;
-    } catch (e) {
-      return false;
-    }
+  function saveState() {
+    const items = getLines().map((item) => item.textContent);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ items }));
   }
 
-  function _doSave() {
-    const items = Array.from(list.querySelectorAll('.line p')).map(p => p.textContent);
-    const state = { items, picked: pickedSpan.textContent || null };
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      console.warn('Could not save state', e);
-    }
-  }
+  function layoutWheel() {
+    const lines = getLines();
 
-  function debounce(fn, wait) {
-    let t = null;
-    return function (...args) {
-      if (t) clearTimeout(t);
-      t = setTimeout(() => {
-        t = null;
-        fn.apply(this, args);
-      }, wait);
-    };
-  }
-
-  const saveState = storageAvailable() ? debounce(_doSave, 200) : function () { /* no-op */ };
-
-  function loadState() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      const state = JSON.parse(raw);
-      if (!state || !Array.isArray(state.items)) return false;
-      list.innerHTML = '';
-      state.items.forEach(text => list.appendChild(createLine(text)));
-      pickedSpan.textContent = state.picked || '';
-      setWheelDelays(0);
-      previousChosen = null;
-      return true;
-    } catch (e) {
-      console.warn('Could not load state', e);
-      return false;
-    }
-  }
-
-  function removePreviousChosen() {
-    if (previousChosen && previousChosen.parentNode) {
-      previousChosen.remove();
-    }
-    previousChosen = null;
-  }
-
-  function pickAndRemove() {
-    if (isSpinning) return;
-    if (previousChosen) {
-      removePreviousChosen();
+    if (!lines.length) {
+      wheel.style.transform = "rotateX(0deg)";
+      return;
     }
 
-    const lines = Array.from(list.querySelectorAll('.line'));
-    if (lines.length === 0) return;
+    const itemCount = lines.length;
+    const minHeight = 60;
+    const maxHeight = 180;
+    const growthFactor = Math.max(0, (30 - itemCount) / 25);
+    const itemHeight = minHeight + growthFactor * (maxHeight - minHeight);
 
-    const chosenIndex = Math.floor(Math.random() * lines.length);
-    const chosen = lines[chosenIndex];
+    document.documentElement.style.setProperty(
+      "--item-height",
+      `${itemHeight}px`,
+    );
 
-    if (!chosen) return;
+    const angle = 360 / itemCount;
+    const idealRadius = itemHeight / 2 / Math.tan(Math.PI / itemCount);
+    const radius = Math.max(220, Math.min(idealRadius, 420));
 
-    setWheelDelays(chosenIndex);
+    lines.forEach((line, index) => {
+      line.style.transform = `rotateX(${-index * angle}deg) translateZ(${radius}px)`;
+    });
+
+    wheel.style.transition = "none";
+    currentRotation = frontIndex * angle;
+    wheel.style.transform = `rotateX(${currentRotation}deg)`;
+  }
+
+  function removePendingItem() {
+    if (!pendingRemoval) {
+      return;
+    }
+
+    const lines = getLines();
+    const index = lines.indexOf(pendingRemoval);
+    const remainingLines = getLines();
+
+    pendingRemoval.remove();
+    pendingRemoval = null;
+
+    if (remainingLines.length === 0) {
+      frontIndex = 0;
+      saveState();
+      return;
+    }
+
+    if (index >= remainingLines.length) {
+      frontIndex = remainingLines.length - 1;
+    } else {
+      frontIndex = index;
+    }
+
+    layoutWheel();
+    saveState();
+  }
+
+  function spinWheel() {
+    if (isSpinning) {
+      return;
+    }
+
+    removePendingItem();
+
+    const lines = getLines();
+
+    if (!lines.length) {
+      alert("No categories remaining.");
+      return;
+    }
 
     isSpinning = true;
-    list.classList.add('spinning');
-    updateButtonState();
 
-    if (spinTimeout) clearTimeout(spinTimeout);
-    spinTimeout = setTimeout(() => {
-      list.classList.remove('spinning');
-      chosen.classList.add('highlighted');
-      previousChosen = chosen;
-      pickedSpan.textContent = chosen.textContent;
-      isSpinning = false;
-      updateButtonState();
-      saveState();
-    }, SPIN_DURATION);
+    lines.forEach((line) => line.classList.remove("highlighted"));
+
+    const itemCount = lines.length;
+    const angle = 360 / itemCount;
+    const chosenIndex = Math.floor(Math.random() * itemCount);
+    const delta = (chosenIndex - frontIndex + itemCount) % itemCount;
+    const extraSpins = 5 + Math.floor(Math.random() * 4);
+
+    currentRotation += extraSpins * 360 + delta * angle;
+
+    frontIndex = chosenIndex;
+
+    wrapper.classList.add("spinning");
+    wheel.style.transition = "transform 4s cubic-bezier(.17,.67,.15,1)";
+    wheel.style.transform = `rotateX(${currentRotation}deg)`;
+    wheel.addEventListener(
+      "transitionend",
+      () => {
+        const selected = lines[chosenIndex];
+
+        selected.classList.add("highlighted");
+
+        pendingRemoval = selected;
+
+        wrapper.classList.remove("spinning");
+
+        isSpinning = false;
+      },
+      { once: true },
+    );
   }
 
-  btn.addEventListener('click', pickAndRemove);
+  function addItem() {
+    const text = newItemInput.value.trim();
+
+    if (!text) {
+      return;
+    }
+
+    list.appendChild(createLine(text));
+
+    newItemInput.value = "";
+
+    layoutWheel();
+    saveState();
+  }
 
   function resetList() {
-    if (!confirm('Reset the list to its original items? This will clear saved state.')) return;
-    if (spinTimeout) clearTimeout(spinTimeout);
-    list.innerHTML = '';
-    initialItems.forEach(text => list.appendChild(createLine(text)));
-    pickedSpan.textContent = '';
-    setWheelDelays(0);
-    previousChosen = null;
-    try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
-    isSpinning = false;
-    list.classList.remove('spinning');
-    updateButtonState();
+    list.innerHTML = "";
+
+    pendingRemoval = null;
+    frontIndex = 0;
+    currentRotation = 0;
+
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotateX(0deg)";
+    populateList(initialItems);
   }
 
-  resetBtn.addEventListener('click', resetList);
+  function loadState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
 
-  window.addEventListener('storage', (e) => {
-    if (e.key !== STORAGE_KEY) return;
-    loadState();
-    updateButtonState();
-  });
+    if (!raw) {
+      return false;
+    }
 
-  window.addEventListener('beforeunload', () => {
-    if (typeof _doSave === 'function') {
-      try { _doSave(); } catch (_) {}
+    try {
+      const state = JSON.parse(raw);
+
+      if (!Array.isArray(state.items)) {
+        return false;
+      }
+
+      list.innerHTML = "";
+
+      state.items.forEach((text) => {
+        list.appendChild(createLine(text));
+      });
+
+      frontIndex = 0;
+      currentRotation = 0;
+      pendingRemoval = null;
+
+      layoutWheel();
+
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  btn.addEventListener("click", spinWheel);
+
+  resetBtn.addEventListener("click", resetList);
+
+  addItemBtn.addEventListener("click", addItem);
+
+  newItemInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      addItem();
     }
   });
 
-  if (storageAvailable()) {
-    if (!loadState()) {
-      initialItems.forEach(text => list.appendChild(createLine(text)));
-      setWheelDelays(0);
-      _doSave();
-    }
-  } else {
-    initialItems.forEach(text => list.appendChild(createLine(text)));
-    setWheelDelays(0);
+  if (!loadState()) {
+    populateList(initialItems);
   }
-
-  updateButtonState();
 })();

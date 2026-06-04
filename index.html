@@ -8,19 +8,32 @@
   </head>
   <body>
     <h1>Songs</h1>
-    <div class="wheel" id="item-list"></div>
 
-    <div class="button-row">
-      <button class="pick-button" id="pick-button">Pick a category</button>
-      <button class="reset-button" id="reset-button">Reset list</button>
+    <div class="machine">
+      <div class="wrapper">
+        <div class="wheel">
+          <div id="item-list" class="item-list"></div>
+        </div>
+      </div>
     </div>
 
-    <span
-      class="picked-item"
-      id="picked"
-      role="status"
-      aria-live="polite"
-    ></span>
+    <div class="button-row">
+      <button class="pick-button" id="pick-button">Spin</button>
+
+      <button class="reset-button" id="reset-button">Reset</button>
+    </div>
+
+    <div class="add-item-container">
+      <input
+        type="text"
+        id="new-item-input"
+        class="new-item-input"
+        placeholder="Add a new category"
+        autocomplete="off"
+      />
+
+      <button class="add-item-button" id="add-item-button">Add</button>
+    </div>
 
     <script src="script.js"></script>
   </body>
