@@ -199,6 +199,9 @@
   }
 
   function resetList() {
+    if (isSpinning) {
+      return;
+    }
     list.innerHTML = "";
 
     pendingRemoval = null;
