@@ -101,12 +101,12 @@
     const radius = Math.max(220, Math.min(idealRadius, 420));
 
     lines.forEach((line, index) => {
-      line.style.transform = `rotateX(${-index * angle}deg) translateZ(${radius}px)`;
+      line.style.transform = `rotateX(${-index * angle}deg) translateZ(${radius}px) translateX(-50%)`;
     });
 
     wheel.style.transition = "none";
     currentRotation = frontIndex * angle;
-    wheel.style.transform = `rotateX(${currentRotation}deg)`;
+    wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation}deg)`;
   }
 
   function removePendingItem() {
@@ -159,27 +159,25 @@
     const angle = 360 / itemCount;
     const chosenIndex = Math.floor(Math.random() * itemCount);
     const delta = (chosenIndex - frontIndex + itemCount) % itemCount;
-    const extraSpins = 5 + Math.floor(Math.random() * 4);
+    const extraSpins = 2;
 
     currentRotation += extraSpins * 360 + delta * angle;
-
     frontIndex = chosenIndex;
 
     wrapper.classList.add("spinning");
     wheel.style.transition = "transform 4s cubic-bezier(.17,.67,.15,1)";
-    wheel.style.transform = `rotateX(${currentRotation}deg)`;
+    wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation}deg)`;
     wheel.addEventListener(
       "transitionend",
       () => {
         const selected = lines[chosenIndex];
 
         selected.classList.add("highlighted");
-
         pendingRemoval = selected;
-
         wrapper.classList.remove("spinning");
-
         isSpinning = false;
+        wheel.style.transition = "none";
+        wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation - 720}deg)`;
       },
       { once: true },
     );
