@@ -4,14 +4,20 @@
   const wrapper = document.querySelector(".wrapper");
   const btn = document.getElementById("pick-button");
   const resetBtn = document.getElementById("reset-button");
-  const addItemBtn = document.getElementById("add-item-button");
   const newItemInput = document.getElementById("new-item-input");
   const STORAGE_KEY = "songs_app_state_v1";
+  const editButton = document.getElementById("edit-button");
+  const dialog = document.getElementById("editor-dialog");
+  const editorList = document.getElementById("editor-list");
+  const saveButton = document.getElementById("editor-save");
+  const cancelButton = document.getElementById("editor-cancel");
+  const editorNewItem = document.getElementById("editor-new-item");
+  const editorAddButton = document.getElementById("editor-add-button");
 
   let currentRotation = 0;
   let isSpinning = false;
   let frontIndex = 0;
-  let pendingRemoval = null;
+  let pendingRemoval = false;
 
   const initialItems = [
     "One Name / Word Artist",
@@ -49,8 +55,16 @@
     "Animal in the Song Title",
   ];
 
-  function getLines() {
-    return Array.from(list.querySelectorAll(".line"));
+  let items = [];
+
+  function renderList() {
+    list.innerHTML = "";
+
+    items.forEach((text) => {
+      list.appendChild(createLine(text));
+    });
+
+    layoutWheel();
   }
 
   function createLine(text) {
@@ -60,32 +74,26 @@
     return div;
   }
 
-  function populateList(items) {
-    list.innerHTML = "";
+  function populateList(newItems) {
+    items = [...newItems];
 
-    items.forEach((text) => {
-      list.appendChild(createLine(text));
-    });
-
-    layoutWheel();
+    renderList();
     saveState();
   }
 
   function saveState() {
-    const items = getLines().map((item) => item.textContent);
-
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ items }));
   }
 
   function layoutWheel() {
-    const lines = getLines();
+    const itemCount = items.length;
 
-    if (!lines.length) {
+    if (itemCount === 0) {
       wheel.style.transform = "rotateX(0deg)";
       return;
     }
 
-    const itemCount = lines.length;
+    const lines = list.children;
     const minHeight = 60;
     const maxHeight = 180;
     const growthFactor = Math.max(0, (30 - itemCount) / 25);
@@ -100,8 +108,10 @@
     const idealRadius = itemHeight / 2 / Math.tan(Math.PI / itemCount);
     const radius = Math.max(220, Math.min(idealRadius, 420));
 
-    lines.forEach((line, index) => {
-      line.style.transform = `rotateX(${-index * angle}deg) translateZ(${radius}px) translateX(-50%)`;
+    Array.from(lines).forEach((line, index) => {
+      line.style.transform = `rotateX(${-index * angle}deg)
+     translateZ(${radius}px)
+     translateX(-50%)`;
     });
 
     wheel.style.transition = "none";
@@ -114,26 +124,17 @@
       return;
     }
 
-    const lines = getLines();
-    const index = lines.indexOf(pendingRemoval);
-    const remainingLines = getLines();
+    items.splice(frontIndex, 1);
 
-    pendingRemoval.remove();
-    pendingRemoval = null;
+    pendingRemoval = false;
 
-    if (remainingLines.length === 0) {
+    if (items.length === 0) {
       frontIndex = 0;
-      saveState();
-      return;
+    } else if (frontIndex >= items.length) {
+      frontIndex = items.length - 1;
     }
 
-    if (index >= remainingLines.length) {
-      frontIndex = remainingLines.length - 1;
-    } else {
-      frontIndex = index;
-    }
-
-    layoutWheel();
+    renderList();
     saveState();
   }
 
@@ -144,18 +145,19 @@
 
     removePendingItem();
 
-    const lines = getLines();
+    const itemCount = items.length;
 
-    if (!lines.length) {
+    if (itemCount === 0) {
       alert("No categories remaining.");
       return;
     }
 
     isSpinning = true;
 
-    lines.forEach((line) => line.classList.remove("highlighted"));
+    Array.from(list.children).forEach((line) => {
+      line.classList.remove("highlighted");
+    });
 
-    const itemCount = lines.length;
     const angle = 360 / itemCount;
     const chosenIndex = Math.floor(Math.random() * itemCount);
     const delta = (chosenIndex - frontIndex + itemCount) % itemCount;
@@ -170,10 +172,10 @@
     wheel.addEventListener(
       "transitionend",
       () => {
-        const selected = lines[chosenIndex];
+        const selected = list.children[chosenIndex];
 
         selected.classList.add("highlighted");
-        pendingRemoval = selected;
+        pendingRemoval = true;
         wrapper.classList.remove("spinning");
         isSpinning = false;
         wheel.style.transition = "none";
@@ -183,26 +185,11 @@
     );
   }
 
-  function addItem() {
-    const text = newItemInput.value.trim();
-
-    if (!text) {
-      return;
-    }
-
-    list.appendChild(createLine(text));
-
-    newItemInput.value = "";
-
-    layoutWheel();
-    saveState();
-  }
-
   function resetList() {
     if (isSpinning) {
       return;
     }
-    list.innerHTML = "";
+    items = [];
 
     pendingRemoval = null;
     frontIndex = 0;
@@ -211,6 +198,35 @@
     wheel.style.transition = "none";
     wheel.style.transform = "rotateX(0deg)";
     populateList(initialItems);
+  }
+
+  function openEditor() {
+    if (isSpinning) {
+      return;
+    }
+
+    editorList.innerHTML = "";
+
+    items.forEach((text) => {
+      const row = document.createElement("div");
+      row.className = "editor-row";
+
+      const input = document.createElement("input");
+      input.value = text;
+
+      const remove = document.createElement("button");
+      remove.textContent = "x";
+
+      remove.addEventListener("click", () => {
+        row.remove();
+      });
+
+      row.append(input, remove);
+
+      editorList.append(row);
+    });
+
+    dialog.showModal();
   }
 
   function loadState() {
@@ -227,17 +243,13 @@
         return false;
       }
 
-      list.innerHTML = "";
-
-      state.items.forEach((text) => {
-        list.appendChild(createLine(text));
-      });
+      items = [...state.items];
 
       frontIndex = 0;
       currentRotation = 0;
       pendingRemoval = null;
 
-      layoutWheel();
+      renderList();
 
       return true;
     } catch {
@@ -245,17 +257,61 @@
     }
   }
 
+  editorAddButton.addEventListener("click", () => {
+    const text = editorNewItem.value.trim();
+
+    if (!text) {
+      return;
+    }
+
+    const row = document.createElement("div");
+    row.className = "editor-row";
+
+    const input = document.createElement("input");
+    input.value = text;
+
+    const remove = document.createElement("button");
+    remove.textContent = "×";
+
+    remove.addEventListener("click", () => {
+      row.remove();
+    });
+
+    row.append(input, remove);
+
+    editorList.append(row);
+
+    editorNewItem.value = "";
+  });
+
+  saveButton.addEventListener("click", () => {
+    const values = [...editorList.querySelectorAll("input")]
+      .map((i) => i.value.trim())
+      .filter(Boolean);
+
+    items = [...values];
+
+    pendingRemoval = null;
+    frontIndex = 0;
+    currentRotation = 0;
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotateX(0deg)";
+
+    renderList();
+    saveState();
+
+    dialog.close();
+  });
+
+  cancelButton.addEventListener("click", () => {
+    dialog.close();
+  });
+
+  editButton.addEventListener("click", openEditor);
+
   btn.addEventListener("click", spinWheel);
 
   resetBtn.addEventListener("click", resetList);
-
-  addItemBtn.addEventListener("click", addItem);
-
-  newItemInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      addItem();
-    }
-  });
 
   if (!loadState()) {
     populateList(initialItems);

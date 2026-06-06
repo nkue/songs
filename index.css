@@ -345,23 +345,81 @@ h1 {
   transform: translateY(3px);
 }
 
-.add-item-container {
-  margin-top: 1.5rem;
+.editor-dialog {
+  width: min(600px, 90vw);
+
+  border: 3px solid var(--gold);
+  border-radius: 20px;
+
+  padding: 1.5rem;
+
+  background: linear-gradient(to bottom, #2d0000, #120000);
+
+  color: var(--text);
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.editor-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.editor-dialog h2 {
+  margin-top: 0;
+  text-align: center;
+  color: var(--gold-light);
+}
+
+.editor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  max-height: 400px;
+  overflow-y: auto;
+
+  margin: 1rem 0;
+}
+
+.editor-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editor-row input {
+  flex: 1;
+
+  padding: 0.7rem;
+
+  background: #140000;
+
+  color: white;
+
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+}
+
+.editor-row button {
+  width: 40px;
+
+  background: #700000;
+
+  color: white;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+.editor-add,
+.editor-actions {
   display: flex;
   gap: 0.75rem;
+  margin-top: 1rem;
 }
 
-.add-item-container input {
-  width: 280px;
-  padding: 0.8rem 1rem;
-  border: 2px solid var(--gold);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.35);
-  color: var(--text);
-}
-
-.add-item-container input::placeholder {
-  color: rgba(255, 247, 213, 0.65);
+.editor-actions {
+  justify-content: flex-end;
 }
 
 /* =========================
@@ -403,18 +461,6 @@ h1 {
   }
 
   .button-row button {
-    width: 100%;
-    max-width: 320px;
-  }
-
-  .add-item-container {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .add-item-container input,
-  .add-item-container button {
     width: 100%;
     max-width: 320px;
   }
