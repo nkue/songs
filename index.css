@@ -260,6 +260,7 @@ h1 {
 
 .button {
   position: relative;
+  display: grid;
   padding: 25px 80px;
   margin: 0;
   border: none;
@@ -550,11 +551,7 @@ h1 {
     flex-direction: row;
 
     .button {
-      display: grid;
-      width: auto;
-      height: auto;
       padding: 20px 40px;
-      justify-content: center;
     }
 
     .edit,
