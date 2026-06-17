@@ -83,7 +83,7 @@
     splitHeadline.forEach((character, index) => {
       const characterElement = document.createElement("span");
       characterElement.textContent = character;
-      if (index === 1) {
+      if (index === splitHeadline.length - 1) {
         characterElement.classList.add("blinking");
       }
       headlineElement.appendChild(characterElement);

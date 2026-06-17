@@ -50,6 +50,8 @@ h1 {
 }
 
 .blinking {
+  display: inline-block;
+  transform: translateY(7px) translateX(2px) rotateZ(12deg);
   animation: blink 3s linear infinite;
 }
 
