@@ -259,6 +259,17 @@
     if (isSpinning) {
       return;
     }
+
+    const userConfirmed = confirm(
+      "Do you want to reset the whole list? This can not be undone.",
+    );
+
+    if (!userConfirmed) {
+      event.preventDefault();
+      console.log("reset cancelled by user");
+      return;
+    }
+
     items = [];
 
     resetWheelState();
