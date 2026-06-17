@@ -83,8 +83,24 @@
     splitHeadline.forEach((character, index) => {
       const characterElement = document.createElement("span");
       characterElement.textContent = character;
+      const longHeadline = splitHeadline.length > 5;
       if (index === splitHeadline.length - 1) {
+        characterElement.classList.add("tilt-left");
         characterElement.classList.add("blinking");
+        if (longHeadline) {
+          characterElement.classList.add("dim");
+        }
+      }
+      if (index === 1) {
+        if (longHeadline) {
+          characterElement.classList.add("tilt-right");
+          characterElement.classList.add("blinking");
+        } else {
+          characterElement.classList.add("dead");
+        }
+      }
+      if (index === 3 && longHeadline) {
+        characterElement.classList.add("dead");
       }
       headlineElement.appendChild(characterElement);
     });

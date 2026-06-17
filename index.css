@@ -41,18 +41,35 @@ h1 {
   letter-spacing: 0.18rem;
   color: var(--gold-light);
   text-shadow:
-    0 -40px 100px,
-    0 0 2px,
-    0 0 1em var(--red-light),
-    0 0 0.5em var(--red-light),
-    0 0 0.1em var(--red-light),
-    0 10px 3px #000;
+    0 0 2px #fff,
+    0 0 8px #ffd57a,
+    0 0 18px var(--red-light),
+    0 0 40px rgba(255, 180, 60, 0.8),
+    0 6px 4px rgba(0, 0, 0, 0.8);
 }
 
 .blinking {
   display: inline-block;
-  transform: translateY(7px) translateX(2px) rotateZ(12deg);
   animation: blink 3s linear infinite;
+}
+
+.dim {
+  opacity: 0.7;
+  filter: brightness(0.85);
+}
+
+.tilt-left {
+  transform: translateY(7px) rotateZ(-1deg);
+  animation: blink 6s infinite;
+}
+
+.tilt-right {
+  transform-origin: top center;
+  transform: translateY(6px) translateX(4px) rotate(12deg);
+}
+
+.dead {
+  filter: brightness(0.2);
 }
 
 /* =========================
@@ -243,8 +260,7 @@ h1 {
 
 .button {
   position: relative;
-  width: 220px;
-  height: 70px;
+  padding: 25px 80px;
   margin: 0;
   border: none;
   border-radius: 18px;
@@ -312,6 +328,12 @@ h1 {
   z-index: 1;
 }
 
+.reset,
+.edit {
+  padding: 25px 60px;
+}
+
+.button svg,
 .button span {
   position: relative;
   z-index: 2;
@@ -524,14 +546,21 @@ h1 {
   }
 
   .button-row {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-  }
+    display: flex;
+    flex-direction: row;
 
-  .button-row button {
-    width: 100%;
-    max-width: 320px;
+    .button {
+      display: grid;
+      width: auto;
+      height: auto;
+      padding: 20px 40px;
+      justify-content: center;
+    }
+
+    .edit,
+    .reset {
+      padding: 20px 20px;
+    }
   }
 }
 
