@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>Songs</h1>
+    <h1 id="headline">Songs</h1>
 
     <div class="machine">
       <div class="wrapper">
@@ -24,20 +24,31 @@
     </div>
 
     <dialog id="editor-dialog" class="editor-dialog">
-      <h2>Edit Categories</h2>
+      <div id="editor-headline" class="editor-headline"></div>
 
       <div id="editor-list" class="editor-list"></div>
 
       <div class="editor-add">
-        <input type="text" id="editor-new-item" placeholder="New category" />
+        <input
+          type="text"
+          class="editor-new-item"
+          id="editor-new-item"
+          placeholder="New category"
+        />
 
-        <button id="editor-add-button">Add</button>
+        <button class="editor-button editor-add-button" id="editor-add-button">
+          Add
+        </button>
       </div>
 
       <div class="editor-actions">
-        <button id="editor-cancel">Cancel</button>
+        <button class="editor-button editor-cancel-button" id="editor-cancel">
+          Cancel
+        </button>
 
-        <button id="editor-save">Save</button>
+        <button class="editor-button editor-save-button" id="editor-save">
+          Save
+        </button>
       </div>
     </dialog>
 

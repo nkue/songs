@@ -2,9 +2,8 @@
   const list = document.getElementById("item-list");
   const wheel = document.querySelector(".wheel");
   const wrapper = document.querySelector(".wrapper");
-  const btn = document.getElementById("pick-button");
-  const resetBtn = document.getElementById("reset-button");
-  const newItemInput = document.getElementById("new-item-input");
+  const button = document.getElementById("pick-button");
+  const resetButton = document.getElementById("reset-button");
   const STORAGE_KEY = "songs_app_state_v1";
   const editButton = document.getElementById("edit-button");
   const dialog = document.getElementById("editor-dialog");
@@ -13,11 +12,15 @@
   const cancelButton = document.getElementById("editor-cancel");
   const editorNewItem = document.getElementById("editor-new-item");
   const editorAddButton = document.getElementById("editor-add-button");
+  const headline = document.getElementById("headline");
+  const editorHeadline = document.getElementById("editor-headline");
 
   let currentRotation = 0;
   let isSpinning = false;
   let frontIndex = 0;
   let pendingRemoval = false;
+
+  const initialHeadline = "Songs";
 
   const initialItems = [
     "One Name / Word Artist",
@@ -74,6 +77,28 @@
     return div;
   }
 
+  function createEditorRow(text = "") {
+    const row = document.createElement("div");
+    row.className = "editor-row";
+
+    const input = document.createElement("input");
+    input.classList.add("editableItem");
+    input.value = text;
+
+    const remove = document.createElement("button");
+    remove.classList.add("editor-button");
+    remove.classList.add("editor-remove-button");
+    remove.textContent = "×";
+
+    remove.addEventListener("click", () => {
+      row.remove();
+    });
+
+    row.append(input, remove);
+
+    return row;
+  }
+
   function populateList(newItems) {
     items = [...newItems];
 
@@ -82,7 +107,13 @@
   }
 
   function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ items }));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        headline: headline.textContent,
+        items,
+      }),
+    );
   }
 
   function layoutWheel() {
@@ -117,6 +148,15 @@
     wheel.style.transition = "none";
     currentRotation = frontIndex * angle;
     wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation}deg)`;
+  }
+
+  function resetWheelState() {
+    pendingRemoval = false;
+    frontIndex = 0;
+    currentRotation = 0;
+
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotateX(0deg)";
   }
 
   function removePendingItem() {
@@ -179,7 +219,7 @@
         wrapper.classList.remove("spinning");
         isSpinning = false;
         wheel.style.transition = "none";
-        wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation - 720}deg)`;
+        wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation - extraSpins * 360}deg)`;
       },
       { once: true },
     );
@@ -191,13 +231,10 @@
     }
     items = [];
 
-    pendingRemoval = null;
-    frontIndex = 0;
-    currentRotation = 0;
-
-    wheel.style.transition = "none";
-    wheel.style.transform = "rotateX(0deg)";
+    resetWheelState();
+    headline.textContent = initialHeadline;
     populateList(initialItems);
+    saveState();
   }
 
   function openEditor() {
@@ -205,25 +242,17 @@
       return;
     }
 
+    editorHeadline.innerHTML = "";
+
+    const editorHeadlineInput = document.createElement("input");
+    editorHeadlineInput.classList.add("editableHeadline");
+    editorHeadlineInput.value = headline.textContent;
+    editorHeadline.append(editorHeadlineInput);
+
     editorList.innerHTML = "";
 
     items.forEach((text) => {
-      const row = document.createElement("div");
-      row.className = "editor-row";
-
-      const input = document.createElement("input");
-      input.value = text;
-
-      const remove = document.createElement("button");
-      remove.textContent = "x";
-
-      remove.addEventListener("click", () => {
-        row.remove();
-      });
-
-      row.append(input, remove);
-
-      editorList.append(row);
+      editorList.append(createEditorRow(text));
     });
 
     dialog.showModal();
@@ -238,16 +267,17 @@
 
     try {
       const state = JSON.parse(raw);
-
-      if (!Array.isArray(state.items)) {
+      if (!Array.isArray(state.items) || typeof state.headline !== "string") {
         return false;
       }
 
       items = [...state.items];
 
-      frontIndex = 0;
-      currentRotation = 0;
-      pendingRemoval = null;
+      if (typeof state.headline === "string") {
+        headline.textContent = state.headline;
+      }
+
+      resetWheelState();
 
       renderList();
 
@@ -264,38 +294,36 @@
       return;
     }
 
-    const row = document.createElement("div");
-    row.className = "editor-row";
-
-    const input = document.createElement("input");
-    input.value = text;
-
-    const remove = document.createElement("button");
-    remove.textContent = "×";
-
-    remove.addEventListener("click", () => {
-      row.remove();
-    });
-
-    row.append(input, remove);
-
-    editorList.append(row);
+    editorList.append(createEditorRow(text));
 
     editorNewItem.value = "";
+    editorNewItem.focus();
+  });
+
+  editorNewItem.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      editorAddButton.click();
+    }
+  });
+
+  dialog.addEventListener("close", () => {
+    editorHeadline.innerHTML = "";
   });
 
   saveButton.addEventListener("click", () => {
-    const values = [...editorList.querySelectorAll("input")]
+    const itemValues = [...editorList.querySelectorAll(".editableItem")]
       .map((i) => i.value.trim())
       .filter(Boolean);
 
-    items = [...values];
+    const newHeadline = editorHeadline
+      .querySelector(".editableHeadline")
+      .value.trim();
 
-    pendingRemoval = null;
-    frontIndex = 0;
-    currentRotation = 0;
-    wheel.style.transition = "none";
-    wheel.style.transform = "rotateX(0deg)";
+    headline.textContent = newHeadline || initialHeadline;
+
+    items = [...itemValues];
+
+    resetWheelState();
 
     renderList();
     saveState();
@@ -309,11 +337,12 @@
 
   editButton.addEventListener("click", openEditor);
 
-  btn.addEventListener("click", spinWheel);
+  button.addEventListener("click", spinWheel);
 
-  resetBtn.addEventListener("click", resetList);
+  resetButton.addEventListener("click", resetList);
 
   if (!loadState()) {
+    headline.textContent = initialHeadline;
     populateList(initialItems);
   }
 })();
