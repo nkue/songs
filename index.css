@@ -50,6 +50,7 @@ h1 {
 
 .blinking {
   display: inline-block;
+  opacity: 0.9;
   animation: blink 3s linear infinite;
 }
 
@@ -59,13 +60,9 @@ h1 {
 }
 
 .tilt-left {
+  transform-origin: top center;
   transform: translateY(7px) rotateZ(-1deg);
   animation: blink 6s infinite;
-}
-
-.tilt-right {
-  transform-origin: top center;
-  transform: translateY(6px) translateX(4px) rotate(12deg);
 }
 
 .dead {
