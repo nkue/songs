@@ -20,7 +20,7 @@
   let frontIndex = 0;
   let pendingRemoval = false;
 
-  const initialHeadline = "Songs";
+  const initialHeadline = constructHeadline("Songs");
 
   const initialItems = [
     "One Name / Word Artist",
@@ -75,6 +75,20 @@
     div.className = "line";
     div.textContent = text;
     return div;
+  }
+
+  function constructHeadline(headline) {
+    const headlineElement = document.createElement("span");
+    const splitHeadline = headline.split("");
+    splitHeadline.forEach((character, index) => {
+      const characterElement = document.createElement("span");
+      characterElement.textContent = character;
+      if (index === 1) {
+        characterElement.classList.add("blinking");
+      }
+      headlineElement.appendChild(characterElement);
+    });
+    return headlineElement;
   }
 
   function createEditorRow(text = "") {
@@ -232,7 +246,7 @@
     items = [];
 
     resetWheelState();
-    headline.textContent = initialHeadline;
+    headline.replaceChildren(initialHeadline);
     populateList(initialItems);
     saveState();
   }
@@ -274,7 +288,7 @@
       items = [...state.items];
 
       if (typeof state.headline === "string") {
-        headline.textContent = state.headline;
+        headline.replaceChildren(constructHeadline(state.headline));
       }
 
       resetWheelState();
@@ -319,7 +333,11 @@
       .querySelector(".editableHeadline")
       .value.trim();
 
-    headline.textContent = newHeadline || initialHeadline;
+    if (newHeadline) {
+      headline.replaceChildren(constructHeadline(newHeadline));
+    } else {
+      headline.replaceChildren(initialHeadline);
+    }
 
     items = [...itemValues];
 
@@ -342,7 +360,7 @@
   resetButton.addEventListener("click", resetList);
 
   if (!loadState()) {
-    headline.textContent = initialHeadline;
+    headline.replaceChildren(initialHeadline);
     populateList(initialItems);
   }
 })();
