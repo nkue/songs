@@ -229,7 +229,7 @@
     frontIndex = chosenIndex;
 
     wrapper.classList.add("spinning");
-    wheel.style.transition = "transform 4s cubic-bezier(.17,.67,.15,1)";
+    wheel.style.transition = "transform 4s cubic-bezier(0.12, 0.78, 0.12, 1)";
     wheel.style.transform = `translate3D(0, 0, 0) rotateX(${currentRotation}deg)`;
     wheel.addEventListener(
       "transitionend",
@@ -399,7 +399,7 @@
 
   button.addEventListener("click", spinWheel);
 
-  wheel.addEventListener("touchmove", spinWheel);
+  wheel.addEventListener("touchend", spinWheel, { passive: true });
 
   resetButton.addEventListener("click", resetList);
 

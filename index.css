@@ -315,6 +315,7 @@ h1 {
   width: 100%;
   height: var(--item-height);
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .item-list {
