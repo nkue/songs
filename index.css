@@ -218,6 +218,7 @@ body {
 }
 
 h1 {
+  text-align: center;
   margin: 0 0 1rem;
   font-size: 2.75rem;
   text-transform: uppercase;
@@ -704,6 +705,7 @@ h1 {
 }
 
 .theme-preview {
+  display: block;
   padding: 0.5rem;
   border-radius: 50%;
 
