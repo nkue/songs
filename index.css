@@ -51,7 +51,9 @@ h1 {
 .blinking {
   display: inline-block;
   opacity: 0.9;
-  animation: blink 3s linear infinite;
+  animation:
+    blink 3s linear infinite,
+    sway 2s ease-in-out infinite;
 }
 
 .dim {
@@ -62,7 +64,6 @@ h1 {
 .tilt-left {
   transform-origin: top center;
   transform: translateY(7px) rotateZ(-1deg);
-  animation: blink 6s infinite;
 }
 
 .dead {
@@ -588,5 +589,27 @@ h1 {
   92.5% {
     color: inherit;
     text-shadow: inherit;
+  }
+}
+
+@keyframes sway {
+  0% {
+    transform: translateY(7px) rotateZ(-1px);
+  }
+
+  25% {
+    transform: translateY(7px) rotateZ(0);
+  }
+
+  50% {
+    transform: translateY(7px) rotateZ(5px);
+  }
+
+  75% {
+    transform: translateY(7px) rotateZ(0);
+  }
+
+  100% {
+    transform: translateY(7px) rotateZ(-1px);
   }
 }
