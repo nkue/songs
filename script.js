@@ -320,6 +320,29 @@
     }
   }
 
+  const root = document.body;
+  const radios = document.querySelectorAll('input[name="theme"]');
+
+  function setTheme(theme) {
+    root.dataset.theme = theme;
+    localStorage.setItem("theme", theme);
+
+    radios.forEach((r) => {
+      r.checked = r.value === theme;
+    });
+  }
+
+  // init
+  const saved = localStorage.getItem("theme") || "carnival";
+  setTheme(saved);
+
+  // listen for changes
+  radios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      setTheme(e.target.value);
+    });
+  });
+
   editorAddButton.addEventListener("click", () => {
     const text = editorNewItem.value.trim();
 

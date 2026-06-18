@@ -5,9 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Songs</title>
     <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Monoton&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body data-theme="default">
     <h1 id="headline">S<span class="blinking">o</span>ngs</h1>
+    <aside>
+      <div class="theme-switcher" role="radiogroup" aria-label="Theme selector">
+        <label class="theme-option">
+          <input type="radio" name="theme" value="carnival" />
+          <span class="theme-preview carnival">🎰</span>
+        </label>
+
+        <label class="theme-option">
+          <input type="radio" name="theme" value="diner" />
+          <span class="theme-preview diner">🍦</span>
+        </label>
+      </div>
+    </aside>
 
     <div class="machine">
       <div class="wrapper">

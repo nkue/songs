@@ -1,20 +1,203 @@
 :root {
   --item-height: 60px;
-  --gold-light: #f4dda3;
-  --gold: #c79a4a;
-  --gold-dark: #6b3c14;
+
+  --accent-light: #f4dda3;
+  --accent: #c79a4a;
+  --accent-dark: #6b3c14;
+
   --red-light: #7d0000;
   --red: #560000;
   --red-dark: #180000;
+
   --text: #fff7d5;
   --text-bright: #f8f0c8;
-  --editor-bg: #140000;
-  --editor-danger: #700000;
+
+  --background-light: #1a0000;
+  --background-mid: #110607;
+  --background-dark: #050305;
+
+  --font-family: "Gill Sans", "Trebuchet MS", sans-serif;
+  --headline-font-family: inherit;
+
+  --headline-color: var(--accent-light);
+  --headline-shadow:
+    0 0 2px #fff, 0 0 8px #ffd57a, 0 0 18px var(--red-light),
+    0 0 40px rgba(255, 180, 60, 0.8), 0 6px 4px rgba(0, 0, 0, 0.8);
+
+  --highlight-text: #4d2d00;
+
+  --highlight-background: linear-gradient(
+    to bottom,
+    #f6e6af,
+    #dfbf71 45%,
+    #c09342 55%,
+    #f4dda3
+  );
+
+  --highlight-shadow:
+    0 0 18px rgba(255, 220, 120, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+
+  --machine-glow: radial-gradient(
+    ellipse at center,
+    rgba(255, 220, 120, 0.18),
+    transparent 70%
+  );
+
+  --wrapper-inner-background: radial-gradient(
+    circle at top,
+    #20110b 0%,
+    #000 75%
+  );
+
+  --wrapper-border-background: radial-gradient(
+    circle at top,
+    #f4dda3 0%,
+    #ddb56a 45%,
+    #c79a4a 65%,
+    #b98d40 85%,
+    #957030 100%
+  );
+
+  --wrapper-top-fade: linear-gradient(#000, transparent);
+
+  --wrapper-bottom-fade: linear-gradient(transparent, #000);
+
+  --line-border-color: rgba(255, 214, 97, 0.65);
+  --line-border-width: 10px;
+
+  --editor-surface: linear-gradient(to bottom, #2d0000, #120000);
+
+  --editor-input: linear-gradient(
+    to bottom,
+    rgba(40, 0, 0, 0.95),
+    rgba(15, 0, 0, 0.95)
+  );
+
+  --editor-remove-button: linear-gradient(to bottom, #900000, #500000);
+
+  --editor-cancel-button: linear-gradient(to bottom, #3a3a3a, #202020);
+
+  --editor-border: var(--accent);
+
+  --editor-text: var(--text);
+  --editor-headline-color: var(--accent-light);
+
+  --line-rail-width: 2px;
+  --line-rail-opacity: 0.75;
+
+  --line-bg: linear-gradient(
+    to bottom,
+    var(--red-light),
+    var(--red) 50%,
+    var(--red-dark)
+  );
+
+  --line-text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.8), 0 0 6px rgba(255, 220, 140, 0.25);
+}
+
+[data-theme="diner"] {
+  --accent-light: #f7f8fa;
+  --accent: #c6cdd3;
+  --accent-dark: #7f8a94;
+
+  --red-light: #ff7acb;
+  --red: #ff5cbf;
+  --red-dark: #ff3faf;
+
+  --text: #f7f8fa;
+  --text-bright: #f7f8fa;
+
+  --background-light: #172c29;
+  --background-mid: #0e1918;
+  --background-dark: #070c0b;
+
+  --font-family: "Futura", sans-serif;
+  --headline-font-family: "Monoton", cursive;
+
+  --headline-color: #ff4fb8;
+
+  --headline-shadow:
+    0 0 3px #fff, 0 0 10px #fff, 0 0 20px #ff4fb8, 0 0 40px #ff4fb8,
+    0 0 60px #ff4fb8;
+
+  --highlight-text: #484444;
+
+  --highlight-background: linear-gradient(
+    to bottom,
+    #8df7ea,
+    #57e8d9 50%,
+    #2dc7d4
+  );
+
+  --highlight-shadow:
+    0 0 12px rgba(99, 216, 255, 0.3), 0 0 30px rgba(99, 216, 255, 0.2);
+
+  --machine-glow: radial-gradient(
+    ellipse at center,
+    rgba(80, 80, 80, 0.08),
+    transparent 70%
+  );
+
+  --wrapper-inner-background: radial-gradient(
+    circle at top,
+    #faf7f0 0%,
+    #e6dfd2 100%
+  );
+
+  --wrapper-border-background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #dfe3e7 20%,
+    #bcc5cc 50%,
+    #e8edf0 80%,
+    #ffffff 100%
+  );
+
+  --wrapper-top-fade: linear-gradient(
+    rgba(120, 115, 105, 0.45),
+    transparent 70%
+  );
+
+  --wrapper-bottom-fade: linear-gradient(
+    transparent 30%,
+    rgba(120, 115, 105, 0.45)
+  );
+
+  --line-border-color: rgba(180, 190, 200, 0.8);
+  --line-border-width: 6px;
+
+  --editor-border: #bcc5cc;
+
+  --editor-surface: linear-gradient(to bottom, #f3ede2, #ddd4c4);
+
+  --editor-input: radial-gradient(
+    circle at top,
+    var(--background-light) 0%,
+    var(--background-mid) 60%,
+    var(--background-dark) 100%
+  );
+
+  --editor-remove-button: linear-gradient(to bottom, #ff8fcb, #ff4fb8);
+
+  --editor-cancel-button: linear-gradient(to bottom, #212121, #161616);
+
+  --editor-text: #2f2a2a;
+  --editor-headline-color: #ff4fb8;
+
+  --line-rail-width: 1px;
+  --line-rail-opacity: 0.35;
+
+  --line-bg: linear-gradient(to bottom, #ff7acb, #ff5cbf, #ff3faf);
+
+  --line-text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.4), 0 0 8px rgba(255, 79, 184, 0.25);
 }
 
 * {
   box-sizing: border-box;
-  font-family: inherit;
 }
 
 body {
@@ -24,13 +207,13 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  font-family: "Gill Sans", "Trebuchet MS", sans-serif;
+  font-family: var(--font-family);
   color: var(--text);
   background: radial-gradient(
     circle at top,
-    #1a0000 0%,
-    #110607 60%,
-    #050305 100%
+    var(--background-light) 0%,
+    var(--background-mid) 60%,
+    var(--background-dark) 100%
   );
 }
 
@@ -39,21 +222,15 @@ h1 {
   font-size: 2.75rem;
   text-transform: uppercase;
   letter-spacing: 0.18rem;
-  color: var(--gold-light);
-  text-shadow:
-    0 0 2px #fff,
-    0 0 8px #ffd57a,
-    0 0 18px var(--red-light),
-    0 0 40px rgba(255, 180, 60, 0.8),
-    0 6px 4px rgba(0, 0, 0, 0.8);
+  font-family: var(--headline-font-family);
+  color: var(--headline-color);
+  text-shadow: var(--headline-shadow);
 }
 
 .blinking {
   display: inline-block;
   opacity: 0.9;
-  animation:
-    blink 3s linear infinite,
-    sway 2s ease-in-out infinite;
+  animation: neonFlicker 3.2s infinite;
 }
 
 .dim {
@@ -89,11 +266,7 @@ h1 {
   top: 50%;
   height: 90px;
   transform: translateY(-50%);
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255, 220, 120, 0.18),
-    transparent 70%
-  );
+  background: var(--machine-glow);
   pointer-events: none;
 }
 
@@ -109,16 +282,8 @@ h1 {
   border: 12px solid transparent;
   border-radius: 30px;
   background:
-    radial-gradient(circle at top, #20110b 0%, #000 75%) padding-box,
-    radial-gradient(
-        circle at top,
-        #f4dda3 0%,
-        #ddb56a 45%,
-        #c79a4a 65%,
-        #b98d40 85%,
-        #957030 100%
-      )
-      border-box;
+    var(--wrapper-inner-background) padding-box,
+    var(--wrapper-border-background) border-box;
 }
 
 .wrapper::before,
@@ -133,12 +298,12 @@ h1 {
 
 .wrapper::before {
   top: 0;
-  background: linear-gradient(#000, transparent);
+  background: var(--wrapper-top-fade);
 }
 
 .wrapper::after {
   bottom: 0;
-  background: linear-gradient(transparent, #000);
+  background: var(--wrapper-bottom-fade);
 }
 
 /* =========================
@@ -176,27 +341,20 @@ h1 {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-bright);
+  text-shadow: var(--line-text-shadow);
   background:
     radial-gradient(
       ellipse at 50% 20%,
       rgba(255, 255, 255, 0.08),
       transparent 45%
     ),
-    linear-gradient(
-      to bottom,
-      var(--red-light),
-      var(--red) 50%,
-      var(--red-dark)
-    );
-  border: solid rgba(255, 214, 97, 0.65);
-  border-width: 1px 10px;
+    var(--line-bg);
+  border: solid var(--line-border-color);
+  border-width: 1px var(--line-border-width);
   box-shadow:
     0 4px 10px rgba(0, 0, 0, 0.35),
     inset 0 2px 5px rgba(0, 0, 0, 0.829);
   backface-visibility: hidden;
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
 }
 
 .line::before {
@@ -205,14 +363,14 @@ h1 {
   top: 8px;
   bottom: 8px;
   left: 6px;
-  width: 2px;
+  width: var(--line-rail-width);
   background: linear-gradient(
     to bottom,
-    var(--gold-light),
-    var(--gold),
-    var(--gold-dark)
+    var(--accent-light),
+    var(--accent),
+    var(--accent-dark)
   );
-  opacity: 0.75;
+  opacity: var(--line-rail-opacity);
 }
 
 .line::after {
@@ -221,29 +379,21 @@ h1 {
   top: 8px;
   bottom: 8px;
   right: 6px;
-  width: 2px;
+  width: var(--line-rail-width);
   background: linear-gradient(
     to bottom,
-    var(--gold-light),
-    var(--gold),
-    var(--gold-dark)
+    var(--accent-light),
+    var(--accent),
+    var(--accent-dark)
   );
-  opacity: 0.75;
+  opacity: var(--line-rail-opacity);
 }
 
 .line.highlighted {
-  color: #4d2d00;
-  background: linear-gradient(
-    to bottom,
-    #f6e6af,
-    #dfbf71 45%,
-    #c09342 55%,
-    #f4dda3
-  );
-  box-shadow:
-    0 0 18px rgba(255, 220, 120, 0.25),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+  text-shadow: none;
+  color: var(--highlight-text);
+  background: var(--highlight-background);
+  box-shadow: var(--highlight-shadow);
 }
 
 /* =========================
@@ -275,9 +425,9 @@ h1 {
     0 0 6px rgba(255, 220, 140, 0.25);
   background: linear-gradient(
     to bottom,
-    var(--gold-light),
-    var(--gold),
-    var(--gold-dark)
+    var(--accent-light),
+    var(--accent),
+    var(--accent-dark)
   );
   box-shadow:
     inset 0 2px 2px rgba(255, 255, 255, 0.25),
@@ -350,11 +500,11 @@ h1 {
   width: min(600px, 90vw);
   max-height: 90vh;
   overflow: hidden;
-  border: 3px solid var(--gold);
+  border: 3px solid var(--accent);
   border-radius: 20px;
   padding: 1.5rem;
-  background: linear-gradient(to bottom, #2d0000, #120000);
-  color: var(--text);
+  background: var(--editor-surface);
+  color: var(--editor-text);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
 }
 
@@ -374,13 +524,9 @@ h1 {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold-light);
-  background: linear-gradient(
-    to bottom,
-    rgba(40, 0, 0, 0.95),
-    rgba(15, 0, 0, 0.95)
-  );
-  border: 2px solid var(--gold);
+  color: var(--editor-headline-color);
+  background: var(--editor-input);
+  border: 2px solid var(--accent);
   border-radius: 12px;
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.08),
@@ -390,7 +536,7 @@ h1 {
 }
 
 .editableHeadline:focus {
-  border-color: var(--gold-light);
+  border-color: var(--accent-light);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.08),
     0 0 12px rgba(255, 220, 120, 0.25);
@@ -415,20 +561,19 @@ h1 {
   flex: 1;
   padding: 0.7rem;
   font-size: 1rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(40, 0, 0, 0.95),
-    rgba(15, 0, 0, 0.95)
-  );
+  background: var(--editor-input);
   color: var(--text);
-  border: 1px solid var(--gold);
+  border: 1px solid var(--accent);
   border-radius: 8px;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.8),
+    0 0 6px rgba(255, 220, 140, 0.25);
 }
 
 .editableItem:focus,
 .editor-new-item:focus {
   outline: none;
-  border-color: var(--gold-light);
+  border-color: var(--accent-light);
 
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.08),
@@ -474,14 +619,14 @@ h1 {
   height: 40px;
   color: white;
   font-size: 1.2rem;
-  background: linear-gradient(to bottom, #900000, #500000);
+  background: var(--editor-remove-button);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.1),
     inset 0 -2px 3px rgba(0, 0, 0, 0.4);
 }
 
 .editor-add-button {
-  border: 1px solid var(--gold);
+  border: 1px solid var(--accent);
 
   background: linear-gradient(
     to bottom,
@@ -495,12 +640,12 @@ h1 {
 }
 
 .editor-save-button {
-  border: 1px solid var(--gold);
+  border: 1px solid var(--accent);
   background: linear-gradient(
     to bottom,
-    var(--gold-light),
-    var(--gold),
-    var(--gold-dark)
+    var(--accent-light),
+    var(--accent),
+    var(--accent-dark)
   );
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   box-shadow:
@@ -510,7 +655,7 @@ h1 {
 
 .editor-cancel-button {
   border: 1px solid #555;
-  background: linear-gradient(to bottom, #3a3a3a, #202020);
+  background: var(--editor-cancel-button);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.08),
     inset 0 -2px 3px rgba(0, 0, 0, 0.4);
@@ -559,57 +704,62 @@ h1 {
   }
 }
 
-@keyframes blink {
-  82% {
-    color: inherit;
-    text-shadow: inherit;
-  }
-  82.5% {
-    color: #333;
-  }
-  83% {
-    text-shadow: none;
-  }
-  86.5% {
-    color: inherit;
-    text-shadow: inherit;
-  }
-  87% {
-    color: #333;
-    text-shadow: none;
-  }
-  87.5% {
-    color: inherit;
-    text-shadow: inherit;
-  }
-  92.25% {
-    color: #333;
-    text-shadow: none;
-  }
-  92.5% {
-    color: inherit;
-    text-shadow: inherit;
-  }
+.theme-option input {
+  display: none;
 }
 
-@keyframes sway {
-  0% {
-    transform: translateY(7px) rotateZ(-1px);
-  }
+.theme-preview {
+  padding: 0.5rem;
+  border-radius: 50%;
 
-  25% {
-    transform: translateY(7px) rotateZ(0);
-  }
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
 
-  50% {
-    transform: translateY(7px) rotateZ(5px);
-  }
+  border: 2px solid var(--accent);
+  background: rgba(0, 0, 0, 0.2);
 
-  75% {
-    transform: translateY(7px) rotateZ(0);
-  }
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
 
+.theme-option input:checked + .theme-preview {
+  display: none;
+}
+
+.theme-preview.carnival {
+  background: linear-gradient(to bottom, #560000, #180000);
+  color: #f8f0c8;
+}
+
+.theme-preview.diner {
+  background: linear-gradient(to bottom, #fffef9, #e6dfd2);
+  color: #ff4fb8;
+  text-shadow: 0 0 6px rgba(255, 79, 184, 0.4);
+}
+
+.theme-switcher {
+  position: fixed;
+  top: 1rem;
+  right: 0.5rem;
+}
+
+@keyframes neonFlicker {
+  0%,
   100% {
-    transform: translateY(7px) rotateZ(-1px);
+    opacity: 1;
+  }
+  92% {
+    opacity: 0.85;
+  }
+  93% {
+    opacity: 0.2;
+  }
+  94% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.6;
   }
 }
