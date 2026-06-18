@@ -595,6 +595,7 @@ h1 {
 
   color: var(--text);
   font-weight: 700;
+  transform: scale3d(1, 1, 1);
 
   transition:
     filter 0.15s ease,
@@ -606,7 +607,7 @@ h1 {
 }
 
 .editor-button:active {
-  transform: scale3d(0.95);
+  transform: scale3d(0.95, 0.95, 0.95);
 }
 
 .editor-remove-button {
