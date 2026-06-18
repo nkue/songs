@@ -376,6 +376,8 @@
 
   button.addEventListener("click", spinWheel);
 
+  wheel.addEventListener("touchmove", spinWheel);
+
   resetButton.addEventListener("click", resetList);
 
   if (!loadState()) {
