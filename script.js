@@ -87,9 +87,6 @@
       if (index === splitHeadline.length - 1) {
         characterElement.classList.add("tilt-left");
         characterElement.classList.add("blinking");
-        if (longHeadline) {
-          characterElement.classList.add("dim");
-        }
       }
       if (index === 3 && longHeadline) {
         characterElement.classList.add("dead");

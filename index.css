@@ -233,14 +233,9 @@ h1 {
   animation: neonFlicker 3.2s infinite;
 }
 
-.dim {
-  opacity: 0.7;
-  filter: brightness(0.85);
-}
-
 .tilt-left {
   transform-origin: top center;
-  transform: translateY(7px) rotateZ(-1deg);
+  transform: translateY(7px) rotateZ(-6deg);
 }
 
 .dead {
