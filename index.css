@@ -16,7 +16,7 @@
   --background-mid: #110607;
   --background-dark: #050305;
 
-  --font-family: "Gill Sans", "Trebuchet MS", sans-serif;
+  --font-family: "Inter", sans-serif;
   --headline-font-family: inherit;
 
   --headline-color: var(--accent-light);
@@ -114,7 +114,7 @@
   --background-mid: #0e1918;
   --background-dark: #070c0b;
 
-  --font-family: "Futura", sans-serif;
+  --font-family: "Inter", sans-serif;
   --headline-font-family: "Monoton", cursive;
 
   --headline-color: #ff4fb8;
