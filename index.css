@@ -432,6 +432,7 @@ h1 {
   transition:
     transform 0.12s ease,
     filter 0.12s ease;
+  transform: scale3d(1, 1, 1);
 }
 
 .button::before {
@@ -489,7 +490,7 @@ h1 {
 }
 
 .button:active {
-  transform: scale(0.95);
+  transform: scale3d(0.95, 0.95, 0.95);
 }
 
 .editor-dialog {
@@ -555,6 +556,7 @@ h1 {
 .editableItem,
 .editor-new-item {
   flex: 1;
+  height: 40px;
   padding: 0.7rem;
   font-size: 1rem;
   background: var(--editor-input);
@@ -604,7 +606,7 @@ h1 {
 }
 
 .editor-button:active {
-  transform: scale(0.95);
+  transform: scale3d(0.95);
 }
 
 .editor-remove-button {
