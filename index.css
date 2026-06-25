@@ -63,6 +63,7 @@ h1 {
 
 .dead {
   filter: brightness(0.2);
+  animation: lightUp 30s infinite;
 }
 
 /* =========================
@@ -559,5 +560,27 @@ h1 {
   }
   97% {
     filter: brightness(0.6);
+  }
+}
+
+@keyframes lightUp {
+  0%,
+  100% {
+    filter: brightness(0.2);
+  }
+  92% {
+    filter: brightness(0.2);
+  }
+  93% {
+    filter: brightness(1);
+  }
+  94% {
+    filter: brightness(0.2);
+  }
+  95% {
+    filter: brightness(1);
+  }
+  96% {
+    filter: brightness(0.2);
   }
 }
