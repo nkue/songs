@@ -131,9 +131,11 @@ h1 {
   background: var(--wrapper-bottom-fade);
 }
 
-/* =========================
-   Wheel
-   ========================= */
+/*
+  =========================
+  Wheel
+  =========================
+*/
 
 .wheel {
   position: relative;
@@ -148,9 +150,11 @@ h1 {
   transform-style: preserve-3d;
 }
 
-/* =========================
-   Categories
-   ========================= */
+/*
+  =========================
+  Lines
+  =========================
+*/
 
 .line {
   position: absolute;
@@ -222,9 +226,11 @@ h1 {
   box-shadow: var(--highlight-shadow);
 }
 
-/* =========================
-   Controls
-   ========================= */
+/*
+  =========================
+  Controls
+  =========================
+*/
 
 .button-row {
   display: flex;
@@ -349,6 +355,12 @@ h1 {
   transform: scale3d(0.95, 0.95, 0.95);
 }
 
+/*
+  =========================
+  Editor
+  =========================
+*/
+
 .editor-dialog {
   width: min(600px, 90vw);
   max-height: 90vh;
@@ -429,16 +441,12 @@ h1 {
 
 .editor-button {
   padding: 0.65rem 1.2rem;
-
   border-radius: 8px;
   border: none;
-
   cursor: pointer;
-
   color: var(--text);
   font-weight: 700;
   transform: scale3d(1, 1, 1);
-
   transition:
     filter 0.15s ease,
     transform 0.15s ease;
@@ -497,6 +505,12 @@ h1 {
   justify-content: flex-end;
 }
 
+/*
+  =========================
+  Themes
+  =========================
+*/
+
 .theme-option input {
   display: none;
 }
@@ -505,14 +519,11 @@ h1 {
   display: block;
   padding: 0.5rem 2rem;
   border-radius: 30px;
-
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-
   border: 2px solid var(--accent);
   background: rgba(0, 0, 0, 0.2);
-
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
@@ -539,10 +550,43 @@ h1 {
   right: 0.5rem;
 }
 
+/*
+  =========================
+  History
+  =========================
+*/
+
+.history {
+  width: min(400px, 80vw);
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.history summary {
+  cursor: pointer;
+  color: var(--accent-light);
+  text-align: center;
+}
+
 .history-entries-wrapper {
   display: flex;
   flex-direction: column-reverse;
+  height: max-content;
+  min-height: 100px;
+  max-height: 140px;
+  margin-top: 0.75rem;
+  padding: 0.75rem 2rem;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
+
+/*
+  =========================
+  Animations
+  =========================
+*/
 
 @keyframes neonFlicker {
   0%,
