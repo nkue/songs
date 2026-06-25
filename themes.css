@@ -1,0 +1,201 @@
+:root {
+  --item-height: 60px;
+
+  --accent-light: #f4dda3;
+  --accent: #c79a4a;
+  --accent-dark: #6b3c14;
+
+  --red-light: #7d0000;
+  --red: #560000;
+  --red-dark: #180000;
+
+  --text: #fff7d5;
+  --text-bright: #f8f0c8;
+
+  --background-light: #1a0000;
+  --background-mid: #110607;
+  --background-dark: #050305;
+
+  --font-family: "Inter", sans-serif;
+  --headline-font-family: inherit;
+
+  --headline-color: var(--accent-light);
+  --headline-shadow:
+    0 0 2px #fff, 0 0 8px #ffd57a, 0 0 18px var(--red-light),
+    0 0 40px rgba(255, 180, 60, 0.8), 0 6px 4px rgba(0, 0, 0, 0.8);
+
+  --highlight-text: #4d2d00;
+
+  --highlight-background: linear-gradient(
+    to bottom,
+    #f6e6af,
+    #dfbf71 45%,
+    #c09342 55%,
+    #f4dda3
+  );
+
+  --highlight-shadow:
+    0 0 18px rgba(255, 220, 120, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+
+  --machine-glow: radial-gradient(
+    ellipse at center,
+    rgba(255, 220, 120, 0.18),
+    transparent 70%
+  );
+
+  --wrapper-inner-background: radial-gradient(
+    circle at top,
+    #20110b 0%,
+    #000 75%
+  );
+
+  --wrapper-border-background: radial-gradient(
+    circle at top,
+    #f4dda3 0%,
+    #ddb56a 45%,
+    #c79a4a 65%,
+    #b98d40 85%,
+    #957030 100%
+  );
+
+  --wrapper-top-fade: linear-gradient(#000, transparent);
+
+  --wrapper-bottom-fade: linear-gradient(transparent, #000);
+
+  --line-border-color: rgba(255, 214, 97, 0.65);
+  --line-border-width: 10px;
+
+  --editor-surface: linear-gradient(to bottom, #2d0000, #120000);
+
+  --editor-input: linear-gradient(
+    to bottom,
+    rgba(40, 0, 0, 0.95),
+    rgba(15, 0, 0, 0.95)
+  );
+
+  --editor-remove-button: linear-gradient(to bottom, #900000, #500000);
+
+  --editor-cancel-button: linear-gradient(to bottom, #3a3a3a, #202020);
+
+  --editor-border: var(--accent);
+
+  --editor-text: var(--text);
+  --editor-headline-color: var(--accent-light);
+
+  --line-rail-width: 2px;
+  --line-rail-opacity: 0.75;
+
+  --line-bg: linear-gradient(
+    to bottom,
+    var(--red-light),
+    var(--red) 50%,
+    var(--red-dark)
+  );
+
+  --line-text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.8), 0 0 6px rgba(255, 220, 140, 0.25);
+
+  @media (max-width: 768px) {
+    --item-height: 50px;
+  }
+}
+
+[data-theme="diner"] {
+  --accent-light: #57e8d9;
+  --accent: #43b5a9;
+  --accent-dark: #296e67;
+
+  --red-light: #ff7acb;
+  --red: #ff5cbf;
+  --red-dark: #ff3faf;
+
+  --text: #f7f8fa;
+  --text-bright: #f7f8fa;
+
+  --background-light: #172c29;
+  --background-mid: #0e1918;
+  --background-dark: #070c0b;
+
+  --font-family: "Inter", sans-serif;
+  --headline-font-family: "Monoton", cursive;
+
+  --headline-color: #ff4fb8;
+
+  --headline-shadow:
+    0 0 3px #fff, 0 0 10px #fff, 0 0 20px #ff4fb8, 0 0 40px #ff4fb8,
+    0 0 60px #ff4fb8;
+
+  --highlight-text: #484444;
+
+  --highlight-background: linear-gradient(
+    to bottom,
+    #8df7ea,
+    #57e8d9 50%,
+    #2dc7d4
+  );
+
+  --highlight-shadow:
+    0 0 12px rgba(99, 216, 255, 0.3), 0 0 30px rgba(99, 216, 255, 0.2);
+
+  --machine-glow: radial-gradient(
+    ellipse at center,
+    rgba(80, 80, 80, 0.08),
+    transparent 70%
+  );
+
+  --wrapper-inner-background: radial-gradient(
+    circle at top,
+    #faf7f0 0%,
+    #e6dfd2 100%
+  );
+
+  --wrapper-border-background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #dfe3e7 20%,
+    #bcc5cc 50%,
+    #e8edf0 80%,
+    #ffffff 100%
+  );
+
+  --wrapper-top-fade: linear-gradient(
+    rgba(120, 115, 105, 0.45),
+    transparent 70%
+  );
+
+  --wrapper-bottom-fade: linear-gradient(
+    transparent 30%,
+    rgba(120, 115, 105, 0.45)
+  );
+
+  --line-border-color: rgba(180, 190, 200, 0.8);
+  --line-border-width: 6px;
+
+  --editor-border: #bcc5cc;
+
+  --editor-surface: linear-gradient(to bottom, #f3ede2, #ddd4c4);
+
+  --editor-input: radial-gradient(
+    circle at top,
+    var(--background-light) 0%,
+    var(--background-mid) 60%,
+    var(--background-dark) 100%
+  );
+
+  --editor-remove-button: linear-gradient(to bottom, #ff8fcb, #ff4fb8);
+
+  --editor-cancel-button: linear-gradient(to bottom, #212121, #161616);
+
+  --editor-text: #2f2a2a;
+  --editor-headline-color: #ff4fb8;
+
+  --line-rail-width: 1px;
+  --line-rail-opacity: 0.35;
+
+  --line-bg: linear-gradient(to bottom, #ff7acb, #ff5cbf, #ff3faf);
+
+  --line-text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.4), 0 0 8px rgba(255, 79, 184, 0.25);
+}
