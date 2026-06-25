@@ -14,6 +14,9 @@
   const editorAddButton = document.getElementById("editor-add-button");
   const headline = document.getElementById("headline");
   const editorHeadline = document.getElementById("editor-headline");
+  const historyEntriesWrapper = document.getElementById(
+    "history-entries-wrapper",
+  );
 
   let currentRotation = 0;
   let isSpinning = false;
@@ -59,6 +62,7 @@
   ];
 
   let items = [];
+  let history = [];
 
   function renderList() {
     list.innerHTML = "";
@@ -131,6 +135,7 @@
       JSON.stringify({
         headline: headline.textContent,
         items,
+        history,
       }),
     );
   }
@@ -182,6 +187,13 @@
     if (!pendingRemoval) {
       return;
     }
+
+    const historyEntry = document.createElement("li");
+    historyEntry.textContent = items[frontIndex];
+
+    historyEntriesWrapper.append(historyEntry);
+
+    history.push(items[frontIndex]);
 
     items.splice(frontIndex, 1);
 
@@ -260,9 +272,11 @@
     }
 
     items = [];
+    history = [];
 
     resetWheelState();
     headline.replaceChildren(initialHeadline);
+    historyEntriesWrapper.replaceChildren("");
     populateList(initialItems);
     saveState();
   }
@@ -297,11 +311,22 @@
 
     try {
       const state = JSON.parse(raw);
-      if (!Array.isArray(state.items) || typeof state.headline !== "string") {
+      if (
+        !Array.isArray(state.items) ||
+        typeof state.headline !== "string" ||
+        !Array.isArray(state.history)
+      ) {
         return false;
       }
 
       items = [...state.items];
+      history = [...state.history];
+
+      history.forEach((entry) => {
+        let historyEntry = document.createElement("li");
+        historyEntry.textContent = entry;
+        historyEntriesWrapper.append(historyEntry);
+      });
 
       if (typeof state.headline === "string") {
         headline.replaceChildren(constructHeadline(state.headline));
