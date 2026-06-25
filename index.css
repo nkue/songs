@@ -615,6 +615,7 @@ h1 {
     scroll-snap-type: x mandatory;
     anchor-name: --carousel;
     scroll-marker-group: after;
+    scrollbar-width: none;
 
     li {
       display: flex;
@@ -700,7 +701,7 @@ h1 {
     max-width: min(300px, 70vw);
     overflow-x: auto;
     overflow-y: hidden;
-
+    scrollbar-width: none;
     white-space: nowrap;
   }
 }
