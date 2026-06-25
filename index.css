@@ -502,8 +502,8 @@ h1 {
 
 .theme-preview {
   display: block;
-  padding: 0.5rem;
-  border-radius: 50%;
+  padding: 0.5rem 2rem;
+  border-radius: 30px;
 
   font-weight: 700;
   font-size: 0.9rem;
