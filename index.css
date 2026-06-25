@@ -568,18 +568,141 @@ h1 {
   text-align: center;
 }
 
-.history-entries-wrapper {
-  display: flex;
-  flex-direction: column-reverse;
-  height: max-content;
-  min-height: 100px;
-  max-height: 140px;
-  margin-top: 0.75rem;
-  padding: 0.75rem 2rem;
-  border: 1px solid var(--accent);
-  border-radius: 12px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+@supports not selector(::scroll-button(*)) {
+  .history-entries-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    list-style: none;
+    height: max-content;
+    min-height: 100px;
+    max-height: 140px;
+    margin-top: 0.75rem;
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    li {
+      width: 100%;
+      border-left: 1px solid var(--line-border-color);
+      border-right: 1px solid var(--line-border-color);
+      text-align: center;
+    }
+
+    :first-child {
+      color: var(--highlight-text);
+      background: var(--highlight-background);
+    }
+  }
+}
+
+@supports selector(::scroll-button(*)) {
+  .history-entries-wrapper {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    height: max-content;
+    min-height: 100px;
+    max-height: 140px;
+    margin-top: 0.75rem;
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    overflow-x: scroll;
+    overscroll-behavior: contain;
+    scroll-snap-type: x mandatory;
+    anchor-name: --carousel;
+    scroll-marker-group: after;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border-left: 1px solid var(--line-border-color);
+      border-right: 1px solid var(--line-border-color);
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+    }
+
+    li::scroll-marker {
+      content: "marker";
+      width: 16px;
+      height: 16px;
+      background-color: transparent;
+      border: 2px solid var(--accent-dark);
+      border-radius: 50%;
+      overflow: hidden;
+      text-indent: 16px;
+      flex: 0 0 auto;
+    }
+
+    li::scroll-marker:target-current {
+      background-color: var(--accent);
+    }
+
+    li:nth-child(even) {
+      background-color: var(--red-dark);
+    }
+
+    :first-child {
+      color: var(--highlight-text);
+      background: var(--highlight-background);
+    }
+  }
+
+  .history-entries-wrapper::scroll-button(*) {
+    position: absolute;
+    position-anchor: --carousel;
+    border: 0;
+    font-size: 2rem;
+    background: none;
+    color: var(--accent);
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  .history-entries-wrapper::scroll-button(*):hover,
+  .history-entries-wrapper::scroll-button(*):focus {
+    opacity: 1;
+  }
+
+  .history-entries-wrapper::scroll-button(*):active {
+    translate: 1px 1px;
+  }
+
+  .history-entries-wrapper::scroll-button(*):disabled {
+    opacity: 0.2;
+    cursor: unset;
+  }
+
+  .history-entries-wrapper::scroll-button(left) {
+    content: "◄" / "Previous";
+    right: calc(anchor(left) - 70px);
+    bottom: calc(anchor(top));
+  }
+
+  .history-entries-wrapper::scroll-button(right) {
+    content: "►" / "Next";
+    left: calc(anchor(right) - 70px);
+    bottom: calc(anchor(top));
+  }
+
+  .history-entries-wrapper::scroll-marker-group {
+    position: absolute;
+    position-anchor: --carousel;
+    top: calc(anchor(bottom) + 10px);
+    justify-self: anchor-center;
+    display: flex;
+    gap: 20px;
+    max-width: min(300px, 70vw);
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+  }
 }
 
 /*

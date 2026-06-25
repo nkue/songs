@@ -191,9 +191,15 @@
     const historyEntry = document.createElement("li");
     historyEntry.textContent = items[frontIndex];
 
-    historyEntriesWrapper.append(historyEntry);
+    historyEntriesWrapper.prepend(historyEntry);
 
     history.push(items[frontIndex]);
+    requestAnimationFrame(() => {
+      historyEntriesWrapper.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+    });
 
     items.splice(frontIndex, 1);
 
@@ -325,7 +331,7 @@
       history.forEach((entry) => {
         let historyEntry = document.createElement("li");
         historyEntry.textContent = entry;
-        historyEntriesWrapper.append(historyEntry);
+        historyEntriesWrapper.prepend(historyEntry);
       });
 
       if (typeof state.headline === "string") {
