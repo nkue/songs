@@ -153,11 +153,10 @@
 
   --wrapper-border-background: linear-gradient(
     to bottom,
-    #ffffff,
-    #dfe3e7 20%,
-    #bcc5cc 50%,
-    #e8edf0 80%,
-    #ffffff 100%
+    #b0fcf3,
+    #8df7ea 20%,
+    #57e8d9 50%,
+    #2dc7d4 100%
   );
 
   --wrapper-top-fade: linear-gradient(
